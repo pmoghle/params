@@ -1,23 +1,18 @@
-{
-    "Version": "2012-10-17",
-    "Id": "s3BucketPolicy",
-    "Statement": [
-        {
-            "Sid": "S3Permissions",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": "s3:*",
-            "Resource": [
-                "arn:aws:s3:::starbucket-12",
-                "arn:aws:s3:::starbucket-12/*"
-            ],
-            "Condition": {
-                "IpAddress": {
-                    "aws:SourceIp": "103.24.125.18"
-                }
-            }
-        }
-    ]
-}
+
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+  - name: create S3 bucket
+    s3_bucket:
+      name: starbucket-12
+      aws_access_key: AKIAZOGSWYVYL3FPXA57
+      aws_secret_key: 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
+      policy: "{{ lookup( 'file','mybucket_policy.json' )}}"
+      state: present
+      region: ap-south-1
+      versioning: no
+      tags:
+         name: starbucket-12
+         type: example
