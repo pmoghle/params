@@ -3,10 +3,11 @@
 - hosts: localhost
   connection: local
   gather_facts: false
+  vars: new-bucket
   tasks:
   - name: create S3 bucket
     s3_bucket:
-      name: starbucket-12
+      name: $"{{vars}}"
       aws_access_key: AKIAZOGSWYVYL3FPXA57
       aws_secret_key: 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
       policy: "{{ lookup( 'file','mybucket_policy.json' )}}"
